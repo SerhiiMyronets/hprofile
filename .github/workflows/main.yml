@@ -7,6 +7,7 @@ env:
   ECS_CLUSTER: vproapp-act
   ECS_TASK_DEFINITION: aws-files/taskdeffile.json
   CONTAINER_NAME: vproapp
+  DOCKERHUB_USERNAME: volkamana
 jobs: 
   Testing:
     runs-on: ubuntu-latest
@@ -56,6 +57,12 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Update applications.property file
         run: |
